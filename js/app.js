@@ -11,6 +11,18 @@ const cards = ['fa fa-diamond', 'fa fa-diamond', 'fa fa-paper-plane-o', 'fa fa-p
  *   - add each card's HTML to the page
  */
 
+/* Clear the deck */
+
+const deck = document.querySelector('.deck');
+
+function clearDeck(deck) {
+  while (deck.firstChild) {
+    deck.removeChild(deck.firstChild);
+  }
+}
+
+clearDeck(deck);
+
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
     var currentIndex = array.length, temporaryValue, randomIndex;
