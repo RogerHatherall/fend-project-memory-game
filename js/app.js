@@ -37,7 +37,20 @@ function shuffle(array) {
 
     return array;
 }
+ /* Shuffle cards and repopulate the deck */
 
+const fragment = document.createDocumentFragment(); 
+
+shuffle(cards);
+
+for (let i = 0; i <= 15; i++) {
+    const card = document.createElement('li');
+    card.className = 'card';
+    card.innerHTML = `<i class='${cards[i]}'></i>`;
+    fragment.appendChild(card);
+}
+
+deck.appendChild(fragment);
 
 /*
  * set up the event listener for a card. If a card is clicked:
