@@ -65,9 +65,30 @@ deck.appendChild(fragment);
 
  /* Create function to display a card. */
 
-function displayCard(clickedCard) {
+function displayCard(e, clickedCard) {
+  console.log("function call displayCard");
+  console.log("clickedCard is " + clickedCard.className);
   clickedCard.className="card open show disabled";
   return(clickedCard);
 }
 
-displayCard(clickedCard);
+//displayCard(clickedCard);
+
+/* Set up the event listeners for all of the cards. */
+function setupEventListeners() {
+  console.log("function call setupEventListeners");  
+  const cardList = document.querySelectorAll(".card");
+  for (let i = 0; i <= 15; i++){
+    let selectedCard = cardList[i];
+    console.log("selectedCard is " + selectedCard);
+    selectedCard.addEventListener('click', (e) => {
+        displayCard(e, selectedCard);
+      });
+    console.log("set listener for " + selectedCard);
+  };
+}
+
+document.addEventListener("DOMContentLoaded", function(event) {
+    console.log("DOM fully loaded and parsed");
+    setupEventListeners();
+});
