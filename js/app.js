@@ -1,9 +1,11 @@
 /*
  * Create a list that holds all of your cards
  */
-
+console.log("Start");
 const cards = ['fa fa-diamond', 'fa fa-diamond', 'fa fa-paper-plane-o', 'fa fa-paper-plane-o', 'fa fa-anchor', 'fa fa-anchor', 'fa fa-bolt', 'fa fa-bolt', 'fa fa-cube', 'fa fa-cube', 'fa fa-leaf', 'fa fa-leaf', 'fa fa-bicycle', 'fa fa-bicycle', 'fa fa-bomb', 'fa fa-bomb'];
-
+const deck = document.querySelector('.deck');
+console.log("deck is " + deck);
+const fragment = document.createDocumentFragment(); 
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -13,9 +15,8 @@ const cards = ['fa fa-diamond', 'fa fa-diamond', 'fa fa-paper-plane-o', 'fa fa-p
 
 /* Clear the deck */
 
-const deck = document.querySelector('.deck');
-
 function clearDeck(deck) {
+  console.log("function clearDeckcalled");
   while (deck.firstChild) {
     deck.removeChild(deck.firstChild);
   }
@@ -37,20 +38,20 @@ function shuffle(array) {
 
     return array;
 }
+
  /* Shuffle cards and repopulate the deck */
+function createDeck() {
+  console.log("function createDeck called");
+  shuffle(cards);
 
-const fragment = document.createDocumentFragment(); 
-
-shuffle(cards);
-
-for (let i = 0; i <= 15; i++) {
+  for (let i = 0; i <= 15; i++) {
     const card = document.createElement('li');
     card.className = 'card';
     card.innerHTML = `<i class='${cards[i]}'></i>`;
     fragment.appendChild(card);
+  }
+  deck.appendChild(fragment);
 }
-
-deck.appendChild(fragment);
 
 /*
  * set up the event listener for a card. If a card is clicked:
@@ -72,19 +73,19 @@ function displayCard(e, clickedCard) {
   return(clickedCard);
 }
 
-//displayCard(clickedCard);
-
-/* Set up the event listeners for all of the cards. */
 function setupEventListeners() {
   console.log("function call setupEventListeners");  
   const cardList = document.querySelectorAll(".card");
   for (let i = 0; i <= 15; i++){
     let selectedCard = cardList[i];
-    console.log("selectedCard is " + selectedCard);
-    selectedCard.addEventListener('click', (e) => {
+    //console.log("selectedCard is " + selectedCard);
+    /*selectedCard.addEventListener('click', (e) => {
+        displayCard(e, selectedCard);
+      });*/
+      selectedCard.addEventListener('click', function(e) {
         displayCard(e, selectedCard);
       });
-    console.log("set listener for " + selectedCard);
+    //console.log("set listener for " + selectedCard);
   };
 }
 
@@ -92,3 +93,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     console.log("DOM fully loaded and parsed");
     setupEventListeners();
 });
+
+//clearDeck(deck);
+createDeck();
+console.log("End");
