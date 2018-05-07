@@ -4,8 +4,8 @@
 console.log("Start");
 const cards = ['fa fa-diamond', 'fa fa-diamond', 'fa fa-paper-plane-o', 'fa fa-paper-plane-o', 'fa fa-anchor', 'fa fa-anchor', 'fa fa-bolt', 'fa fa-bolt', 'fa fa-cube', 'fa fa-cube', 'fa fa-leaf', 'fa fa-leaf', 'fa fa-bicycle', 'fa fa-bicycle', 'fa fa-bomb', 'fa fa-bomb'];
 const deck = document.querySelector('.deck');
-console.log("deck is " + deck);
 const fragment = document.createDocumentFragment(); 
+
 /*
  * Display the cards on the page
  *   - shuffle the list of cards using the provided "shuffle" method below
@@ -69,7 +69,18 @@ function createDeck() {
 function displayCard(e, clickedCard) {
   console.log("function call displayCard");
   console.log("clickedCard is " + clickedCard.className);
-  clickedCard.className="card open show disabled";
+  if (clickedCard.className === "card") {
+    clickedCard.className="card open show disabled";
+    let openCards = [];
+    openCards.push(clickedCard);
+    let list = openCards[0].className;
+    console.log("display list is " + list);
+    checkOpenCards(openCards);
+  }
+  else {
+    alert("You can't click this card, try another");
+  }
+  
   return(clickedCard);
 }
 
@@ -87,6 +98,20 @@ function setupEventListeners() {
       });
     //console.log("set listener for " + selectedCard);
   };
+}
+
+function checkOpenCards(openCards) {
+    console.log("function call checkOpenCards");  
+    console.log("openCards is " + openCards);
+    let list = openCards[0].firstElementChild.className;
+    console.log("list is " + list);
+    if (openCards.length === 2){
+		if (openCards[0].firstElementChild.className === openCards[1].firstElementChild.className){
+			matchedCards();
+		} else {
+			unmatchedCards();
+		}
+	}
 }
 
 document.addEventListener("DOMContentLoaded", function(event) {
