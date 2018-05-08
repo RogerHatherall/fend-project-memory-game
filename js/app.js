@@ -5,6 +5,7 @@ console.log("Start");
 const cards = ['fa fa-diamond', 'fa fa-diamond', 'fa fa-paper-plane-o', 'fa fa-paper-plane-o', 'fa fa-anchor', 'fa fa-anchor', 'fa fa-bolt', 'fa fa-bolt', 'fa fa-cube', 'fa fa-cube', 'fa fa-leaf', 'fa fa-leaf', 'fa fa-bicycle', 'fa fa-bicycle', 'fa fa-bomb', 'fa fa-bomb'];
 const deck = document.querySelector('.deck');
 const fragment = document.createDocumentFragment(); 
+let openCards = [];
 
 /*
  * Display the cards on the page
@@ -42,7 +43,7 @@ function shuffle(array) {
  /* Shuffle cards and repopulate the deck */
 function createDeck() {
   console.log("function createDeck called");
-  shuffle(cards);
+//  shuffle(cards);
 
   for (let i = 0; i <= 15; i++) {
     const card = document.createElement('li');
@@ -69,9 +70,12 @@ function createDeck() {
 function displayCard(e, clickedCard) {
   console.log("function call displayCard");
   console.log("clickedCard is " + clickedCard.className);
+  if (openCards.length > 1) {
+      openCards =[];
+  }
+  console.log("openCards length is now " + openCards.length);
   if (clickedCard.className === "card") {
-    clickedCard.className="card open show disabled";
-    let openCards = [];
+    clickedCard.className="card open show";
     openCards.push(clickedCard);
     let list = openCards[0].className;
     console.log("display list is " + list);
@@ -100,18 +104,36 @@ function setupEventListeners() {
   };
 }
 
+/* Create function to check a list of open cards */
+
 function checkOpenCards(openCards) {
     console.log("function call checkOpenCards");  
-    console.log("openCards is " + openCards);
-    let list = openCards[0].firstElementChild.className;
-    console.log("list is " + list);
-    if (openCards.length === 2){
+    //console.log("openCards is " + openCards);
+    let x = openCards.length - 1;
+    let symbol = openCards[x].firstElementChild.className;
+    console.log("symbol is " + symbol);
+    console.log("openCards length is " + openCards.length);
+    if (openCards.length === 2) {
+        
 		if (openCards[0].firstElementChild.className === openCards[1].firstElementChild.className){
-			matchedCards();
+			matchedCards(openCards);
 		} else {
 			unmatchedCards();
-		}
+        }
 	}
+}
+
+/* Create function to deal with a matched pair of cards */
+
+function matchedCards(openCards) {
+    console.log("function call matchedCards");  
+    let firstcard = openCards[0].className;
+    let secondcard = openCards[1].className;
+    console.log("first card is " + firstcard + " second card is " + secondcard);
+	for (let i = 0; i < 2; i++) {
+    	openCards[i].classList.add('match');
+    	openCards[i].classList.remove('show', 'open');
+    }
 }
 
 document.addEventListener("DOMContentLoaded", function(event) {
