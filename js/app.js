@@ -43,7 +43,7 @@ function shuffle(array) {
  /* Shuffle cards and repopulate the deck */
 function createDeck() {
   console.log("function createDeck called");
-//  shuffle(cards);
+  shuffle(cards);
 
   for (let i = 0; i <= 15; i++) {
     const card = document.createElement('li');
@@ -118,7 +118,7 @@ function checkOpenCards(openCards) {
 		if (openCards[0].firstElementChild.className === openCards[1].firstElementChild.className){
 			matchedCards(openCards);
 		} else {
-			unmatchedCards();
+			unmatchedCards(openCards);
         }
 	}
 }
@@ -133,6 +133,18 @@ function matchedCards(openCards) {
 	for (let i = 0; i < 2; i++) {
     	openCards[i].classList.add('match');
     	openCards[i].classList.remove('show', 'open');
+    }
+}
+
+/* Create function to deal with an unmatched pair of cards */
+
+function unmatchedCards(openCards) {
+    console.log("function call unmatchedCards");  
+    let firstcard = openCards[0].className;
+    let secondcard = openCards[1].className;
+    console.log("first card is " + firstcard + " second card is " + secondcard);
+	for (let i = 0; i < 2; i++) {
+      openCards[i].classList.remove('show', 'open');
     }
 }
 
