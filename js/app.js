@@ -6,6 +6,7 @@ const cards = ['fa fa-diamond', 'fa fa-diamond', 'fa fa-paper-plane-o', 'fa fa-p
 const deck = document.querySelector('.deck');
 const fragment = document.createDocumentFragment(); 
 let openCards = [];
+let moveCount = 0;
 
 /*
  * Display the cards on the page
@@ -24,6 +25,7 @@ function clearDeck(deck) {
 }
 
 clearDeck(deck);
+createDeck();
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -88,6 +90,8 @@ function displayCard(e, clickedCard) {
   return(clickedCard);
 }
 
+/* Set up the event listeners for all of the cards. */
+
 function setupEventListeners() {
   console.log("function call setupEventListeners");  
   const cardList = document.querySelectorAll(".card");
@@ -118,7 +122,10 @@ function checkOpenCards(openCards) {
 		if (openCards[0].firstElementChild.className === openCards[1].firstElementChild.className){
 			matchedCards(openCards);
 		} else {
-			unmatchedCards(openCards);
+    //      setTimeout(() => unmatchedCards(openCards), 5000);
+            setTimeout(function() {
+                unmatchedCards(openCards)
+            },1000);
         }
 	}
 }
@@ -148,11 +155,13 @@ function unmatchedCards(openCards) {
     }
 }
 
+/* Set up the event listeners when the DOM is ready. */
+
 document.addEventListener("DOMContentLoaded", function(event) {
     console.log("DOM fully loaded and parsed");
     setupEventListeners();
 });
 
 //clearDeck(deck);
-createDeck();
+//createDeck();
 console.log("End");
