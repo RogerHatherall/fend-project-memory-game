@@ -7,6 +7,9 @@ const deck = document.querySelector('.deck');
 const fragment = document.createDocumentFragment(); 
 let openCards = [];
 let moveCount = 0;
+//const movesSpan = document.querySelector('.moves');
+const scorePanelSection = document.querySelector('.score-panel');
+
 
 /*
  * Display the cards on the page
@@ -14,6 +17,15 @@ let moveCount = 0;
  *   - loop through each card and create its HTML
  *   - add each card's HTML to the page
  */
+
+ /* A function to create the score panel */
+
+function createScorePanel() {
+    console.log("function createScorePanel called");
+    let movesSpan = document.querySelector('.moves');
+    movesSpan.textContent = moveCount;
+    const timer = document.createElement('time');
+  }
 
 /* Clear the deck */
 
@@ -24,6 +36,7 @@ function clearDeck(deck) {
   }
 }
 
+createScorePanel();
 clearDeck(deck);
 createDeck();
 
@@ -86,7 +99,9 @@ function displayCard(e, clickedCard) {
   else {
     alert("You can't click this card, try another");
   }
-  
+  moveCount++;
+  let movesSpan = document.querySelector('.moves');
+  movesSpan.textContent = moveCount;
   return(clickedCard);
 }
 
