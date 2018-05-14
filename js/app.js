@@ -22,9 +22,29 @@ const scorePanelSection = document.querySelector('.score-panel');
 
 function createScorePanel() {
     console.log("function createScorePanel called");
+    /* move counter */
     let movesSpan = document.querySelector('.moves');
     movesSpan.textContent = moveCount;
+    /* timer */
     const timer = document.createElement('time');
+    let timeDisplay = "00:00:00";
+    timer.textContent = timeDisplay;
+    timer.className = 'timer';
+    timer.style.cssText = "border: 1px solid black; font-size: 16px; border-radius: 8px; margin-left: 50px";
+    //timer.innerHTML = `<span class="timer>99:99:99</span>`;
+    const resetDiv = document.querySelector('.restart');
+    const scorepanelSection = document.querySelector('.score-panel');
+    scorepanelSection.insertBefore(timer, resetDiv);
+    /* reset button */
+    const icon = document.querySelector('.fa-repeat');
+    icon.style.display = "none";
+    const resetButton = document.createElement('button');
+    const repeatSign = '<i class="fa fa-repeat"></i>';
+    resetButton.innerHTML = repeatSign;
+    resetButton.style.cssText = "color: blue; border: 1px solid black; font-size: 20px; border-radius: 8px;"; 
+ //   let resetDiv = document.querySelector('.restart');
+    resetDiv.appendChild(resetButton);
+    
   }
 
 /* Clear the deck */
