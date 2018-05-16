@@ -9,6 +9,7 @@ let openCards = [];
 let moveCount = 0;
 //const movesSpan = document.querySelector('.moves');
 const scorePanelSection = document.querySelector('.score-panel');
+let displayTime = "00:00:00";
 
 
 /*
@@ -120,6 +121,13 @@ function displayCard(e, clickedCard) {
     alert("You can't click this card, try another");
   }
   moveCount++;
+
+  if (moveCount === 1) {
+    startClock();
+  };
+
+  console.log(displayTime);
+
   let movesSpan = document.querySelector('.moves');
   movesSpan.textContent = moveCount;
   return(clickedCard);
@@ -188,6 +196,69 @@ function unmatchedCards(openCards) {
 	for (let i = 0; i < 2; i++) {
       openCards[i].classList.remove('show', 'open');
     }
+}
+
+/* Function to start the clock */
+
+function startClock() {
+  console.log("function startClock called");
+  let hours = 0;
+  let minutes = 0;
+  let seconds = 0;
+  let clock;
+  
+  let displayHours = "00";
+  let displayMinutes = "00";
+  let displaySeconds = "00";
+
+  function increment() {
+    console.log("Function increment called");
+    seconds++;
+    if (seconds >= 60) {
+        seconds = 0;
+        minutes++;
+        if (minutes >= 60) {
+            minutes = 0;
+            hours++;
+        }
+      }
+
+    if (hours < 10) {
+      displayHours = "0" + hours;
+    }
+    else {
+      displayHours = hours;
+    }
+
+    if (minutes < 10) {
+      displayMinutes = "0" + minutes;
+    }
+    else {
+      displayMinutes = minutes;
+    }
+
+    if (seconds < 10) {
+      displaySeconds = "0" + seconds;
+    }
+    else {
+      displaySeconds = seconds;
+    }
+
+    displayTime = displayHours + ":" + displayMinutes + ":" + displaySeconds; 
+    console.log("increment function " + displayTime);
+  //  return displayTime;
+    setClock();
+    let clockTime = document.querySelector('.timer');
+    clockTime.textContent = displayTime;
+    console.log("Function increment ends");
+  }
+
+  function setClock(){
+    console.log("Function set clock called");
+    clock = setTimeout(increment, 1000);
+  }
+  setClock();
+  console.log("Function startClock ends");
 }
 
 /* Set up the event listeners when the DOM is ready. */
