@@ -7,9 +7,11 @@ const deck = document.querySelector('.deck');
 const fragment = document.createDocumentFragment(); 
 let openCards = [];
 let moveCount = 0;
+let matchCount = 0;
 //const movesSpan = document.querySelector('.moves');
 const scorePanelSection = document.querySelector('.score-panel');
 let displayTime = "00:00:00";
+let starCount = 3;
 
 
 /*
@@ -119,6 +121,7 @@ function displayCard(e, clickedCard) {
   }
   else {
     alert("You can't click this card, try another");
+    moveCount--;
   }
   moveCount++;
 
@@ -126,10 +129,15 @@ function displayCard(e, clickedCard) {
     startClock();
   };
 
-  console.log(displayTime);
+//  console.log(displayTime);
 
   let movesSpan = document.querySelector('.moves');
   movesSpan.textContent = moveCount;
+
+  if (moveCount === 20 || moveCount === 40 || moveCount === 60) {
+    removeStar();
+  }
+
   return(clickedCard);
 }
 
@@ -201,7 +209,7 @@ function unmatchedCards(openCards) {
 /* Function to start the clock */
 
 function startClock() {
-  console.log("function startClock called");
+//  console.log("function startClock called");
   let hours = 0;
   let minutes = 0;
   let seconds = 0;
@@ -212,7 +220,7 @@ function startClock() {
   let displaySeconds = "00";
 
   function increment() {
-    console.log("Function increment called");
+    //console.log("Function increment called");
     seconds++;
     if (seconds >= 60) {
         seconds = 0;
@@ -245,20 +253,28 @@ function startClock() {
     }
 
     displayTime = displayHours + ":" + displayMinutes + ":" + displaySeconds; 
-    console.log("increment function " + displayTime);
-  //  return displayTime;
+  //  console.log("increment function " + displayTime);
     setClock();
     let clockTime = document.querySelector('.timer');
     clockTime.textContent = displayTime;
-    console.log("Function increment ends");
+    //console.log("Function increment ends");
   }
 
   function setClock(){
-    console.log("Function set clock called");
+  //  console.log("Function set clock called");
     clock = setTimeout(increment, 1000);
   }
   setClock();
-  console.log("Function startClock ends");
+  //  console.log("Function startClock ends");
+}
+
+function removeStar() {
+  //console.log("function removeStar called");
+  let starList = document.querySelectorAll('.fa-star');
+  let firstStar = starList[0];
+  starCount--;
+  console.log("stars = " + starCount);
+  return firstStar.parentNode.removeChild(firstStar);
 }
 
 /* Set up the event listeners when the DOM is ready. */
