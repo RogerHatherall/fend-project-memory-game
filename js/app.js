@@ -62,8 +62,9 @@ function clearDeck(deck) {
   }
 }
 
-//createScorePanel();
 function newGame(deck) {
+  moveCount = 0;
+  matchCount = 0;
   clearDeck(deck);
   createDeck();
   setupEventListeners();
@@ -142,7 +143,7 @@ function displayCard(e, clickedCard) {
   let movesSpan = document.querySelector('.moves');
   movesSpan.textContent = moveCount;
 
-  if (moveCount === 20 || moveCount === 40 || moveCount === 60) {
+  if (moveCount === 20 || moveCount === 40) {
     removeStar();
   }
 
@@ -222,13 +223,18 @@ function startClock() {
   let minutes = 0;
   let seconds = 0;
   let clock;
-  
   let displayHours = "00";
   let displayMinutes = "00";
   let displaySeconds = "00";
+  const resetButton = document.querySelector('.resetButton');
+
+  resetButton.addEventListener('click', function() {
+    console.log("reset button clicked in startClock");
+    clearTimeout(clock); 
+  });
 
   function increment() {
-    //console.log("Function increment called");
+    //console.log("Function increment called ");
     seconds++;
     if (seconds >= 60) {
         seconds = 0;
@@ -261,7 +267,7 @@ function startClock() {
     }
 
     displayTime = displayHours + ":" + displayMinutes + ":" + displaySeconds; 
-  //  console.log("increment function " + displayTime);
+    //console.log("increment function " + displayTime);
     setClock();
     let clockTime = document.querySelector('.timer');
     clockTime.textContent = displayTime;
@@ -269,10 +275,12 @@ function startClock() {
   }
 
   function setClock(){
-  //  console.log("Function set clock called");
+    //console.log("Function set clock called")
     clock = setTimeout(increment, 1000);
-  }
+  }  
+   
   setClock();
+
   //  console.log("Function startClock ends");
 }
 
