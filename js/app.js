@@ -45,9 +45,12 @@ function createScorePanel() {
     const repeatSign = '<i class="fa fa-repeat"></i>';
     resetButton.innerHTML = repeatSign;
     resetButton.style.cssText = "color: blue; border: 1px solid black; font-size: 20px; border-radius: 8px;"; 
- //   let resetDiv = document.querySelector('.restart');
+    resetButton.className = "resetButton";
     resetDiv.appendChild(resetButton);
-    
+    resetButton.addEventListener('click', function() {
+      newGame(deck);
+      console.log("reset button clicked");
+    });
   }
 
 /* Clear the deck */
@@ -59,9 +62,14 @@ function clearDeck(deck) {
   }
 }
 
-createScorePanel();
-clearDeck(deck);
-createDeck();
+//createScorePanel();
+function newGame(deck) {
+  clearDeck(deck);
+  createDeck();
+  setupEventListeners();
+  return deck;
+}
+
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -281,8 +289,11 @@ function removeStar() {
 
 document.addEventListener("DOMContentLoaded", function(event) {
     console.log("DOM fully loaded and parsed");
-    setupEventListeners();
+  //  setupEventListeners();
+  createScorePanel();
+  newGame(deck);  
 });
+
 
 //clearDeck(deck);
 //createDeck();
