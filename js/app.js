@@ -65,6 +65,13 @@ function clearDeck(deck) {
 function newGame(deck) {
   moveCount = 0;
   matchCount = 0;
+  while (starCount < 3) {
+    addStar();
+  }
+  let resetMoves = document.querySelector('.moves');
+  resetMoves.textContent = "0";
+  let resetClock = document.querySelector('.timer');
+  resetClock.textContent = "00:00:00";
   clearDeck(deck);
   createDeck();
   setupEventListeners();
@@ -143,7 +150,7 @@ function displayCard(e, clickedCard) {
   let movesSpan = document.querySelector('.moves');
   movesSpan.textContent = moveCount;
 
-  if (moveCount === 20 || moveCount === 40) {
+  if (moveCount === 2 || moveCount === 4) {
     removeStar();
   }
 
@@ -291,6 +298,16 @@ function removeStar() {
   starCount--;
   console.log("stars = " + starCount);
   return firstStar.parentNode.removeChild(firstStar);
+}
+
+function addStar () {
+  console.log("addStar function called");
+  const starsDiv = document.querySelector('.stars');
+  const star = document.createElement('li');
+  star.innerHTML = '<i class="fa fa-star"></i>';
+  starsDiv.appendChild(star);
+  starCount++;
+  console.log("stars = " + starCount);
 }
 
 /* Set up the event listeners when the DOM is ready. */
