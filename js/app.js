@@ -8,6 +8,11 @@ const fragment = document.createDocumentFragment();
 let openCards = [];
 let moveCount = 0;
 let matchCount = 0;
+let hours = 0;
+let minutes = 0;
+let seconds = 0;
+let clickedCards = 0;
+
 //const movesSpan = document.querySelector('.moves');
 const scorePanelSection = document.querySelector('.score-panel');
 let displayTime = "00:00:00";
@@ -97,7 +102,7 @@ function shuffle(array) {
  /* Shuffle cards and repopulate the deck */
 function createDeck() {
   console.log("function createDeck called");
-  shuffle(cards);
+  //shuffle(cards);
 
   for (let i = 0; i <= 15; i++) {
     const card = document.createElement('li');
@@ -124,10 +129,16 @@ function createDeck() {
 function displayCard(e, clickedCard) {
   console.log("function call displayCard");
   console.log("clickedCard is " + clickedCard.className);
+  console.log("number of clickedCards is now " + clickedCards);
+  if (clickedCards > 2) {
+    alert("Open cards is " + clickedCards);
+    clickedCards = 0;
+  }
+
   if (openCards.length > 1) {
       openCards =[];
+      clickedCards = 0;
   }
-  console.log("openCards length is now " + openCards.length);
   if (clickedCard.className === "card") {
     clickedCard.className="card open show";
     openCards.push(clickedCard);
@@ -150,7 +161,7 @@ function displayCard(e, clickedCard) {
   let movesSpan = document.querySelector('.moves');
   movesSpan.textContent = moveCount;
 
-  if (moveCount === 2 || moveCount === 4) {
+  if (moveCount === 20 || moveCount === 40) {
     removeStar();
   }
 
@@ -169,6 +180,7 @@ function setupEventListeners() {
         displayCard(e, selectedCard);
       });*/
       selectedCard.addEventListener('click', function(e) {
+        clickedCards++;
         displayCard(e, selectedCard);
       });
     //console.log("set listener for " + selectedCard);
@@ -185,16 +197,19 @@ function checkOpenCards(openCards) {
     console.log("symbol is " + symbol);
     console.log("openCards length is " + openCards.length);
     if (openCards.length === 2) {
-        
-		if (openCards[0].firstElementChild.className === openCards[1].firstElementChild.className){
-			matchedCards(openCards);
-		} else {
-    //      setTimeout(() => unmatchedCards(openCards), 5000);
-            setTimeout(function() {
-                unmatchedCards(openCards)
+		  if (openCards[0].firstElementChild.className === openCards[1].firstElementChild.className){
+			  matchedCards(openCards);
+      } 
+      else {
+    //setTimeout(() => unmatchedCards(openCards), 5000);
+      setTimeout(function() {
+        unmatchedCards(openCards)
             },1000);
-        }
-	}
+      }
+    }
+    /*if (matchCount === 8) {
+      gameOver();
+    }*/
 }
 
 /* Create function to deal with a matched pair of cards */
@@ -208,6 +223,7 @@ function matchedCards(openCards) {
     	openCards[i].classList.add('match');
     	openCards[i].classList.remove('show', 'open');
     }
+    matchCount++;
 }
 
 /* Create function to deal with an unmatched pair of cards */
@@ -226,9 +242,6 @@ function unmatchedCards(openCards) {
 
 function startClock() {
 //  console.log("function startClock called");
-  let hours = 0;
-  let minutes = 0;
-  let seconds = 0;
   let clock;
   let displayHours = "00";
   let displayMinutes = "00";
@@ -282,8 +295,14 @@ function startClock() {
   }
 
   function setClock(){
-    //console.log("Function set clock called")
-    clock = setTimeout(increment, 1000);
+    //console.log("Function set clock called matchCount is " + matchCount);
+    if (matchCount === 8) {
+      clearTimeout(clock); 
+      gameOver();
+    }
+    else {
+      clock = setTimeout(increment, 1000);
+    }  
   }  
    
   setClock();
@@ -310,8 +329,33 @@ function addStar () {
   console.log("stars = " + starCount);
 }
 
-/* Set up the event listeners when the DOM is ready. */
+/*A fuction to handle the winning modal */
+function gameOver () {
+console.log("function gameOver called: matchCount is " + matchCount);
+  //alert("Winner " + "stars " + starCount + " time " + displayTime + " moves " + moveCount);
+  const modal = document.createElement('div');
+  modal.className = "modal";
+  modal.innerHTML = `<h1 class="modh1"></h1><p class="modp1"></p><p class="modp2"></p><p class="modp3"></p><p class="modp4"></p>`;
+  modal.style.cssText = "width: 400px; height: 300px; background-color: white; position: fixed; z-index: 1; border: 2px, color black";
+  const headerDiv = document.querySelector('.container');
+  headerDiv.appendChild(modal);
+  const headerTxt = document.querySelector('.modh1');
+  headerTxt.textContent = "Congratulations";
+  const p1Txt = document.querySelector('.modp1');
+  let modTxt = "You did it in " + moveCount + " moves";
+  p1Txt.textContent = modTxt;
+  const p2Txt = document.querySelector('.modp2');
+  modTxt = "Your time was "  +  hours + " hours " + minutes + " minutes " + seconds + " seconds";
+  p2Txt.textContent = modTxt;
+  const p3Txt = document.querySelector('.modp3');
+  modTxt = "Your score was "  +  starCount + " stars";
+  p3Txt.textContent = modTxt;
+  const p4Txt = document.querySelector('.modp4');
+  modTxt = "Press the reset button to play again";
+  p4Txt.textContent = modTxt;
+ }
 
+/* Set up the event listeners when the DOM is ready. */
 document.addEventListener("DOMContentLoaded", function(event) {
     console.log("DOM fully loaded and parsed");
   //  setupEventListeners();
