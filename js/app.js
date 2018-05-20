@@ -1,7 +1,7 @@
 /*
  * Create a list that holds all of your cards
  */
-console.log("Start");
+//console.log("Start");
 const cards = ['fa fa-diamond', 'fa fa-diamond', 'fa fa-paper-plane-o', 'fa fa-paper-plane-o', 'fa fa-anchor', 'fa fa-anchor', 'fa fa-bolt', 'fa fa-bolt', 'fa fa-cube', 'fa fa-cube', 'fa fa-leaf', 'fa fa-leaf', 'fa fa-bicycle', 'fa fa-bicycle', 'fa fa-bomb', 'fa fa-bomb'];
 const deck = document.querySelector('.deck');
 const fragment = document.createDocumentFragment(); 
@@ -29,7 +29,7 @@ let starCount = 3;
  /* A function to create the score panel */
 
 function createScorePanel() {
-    console.log("function createScorePanel called");
+    //console.log("function createScorePanel called");
     /* move counter */
     let movesSpan = document.querySelector('.moves');
     movesSpan.textContent = moveCount;
@@ -53,14 +53,14 @@ function createScorePanel() {
     resetDiv.appendChild(resetButton);
     resetButton.addEventListener('click', function() {
       newGame(deck);
-      console.log("reset button clicked");
+      //console.log("reset button clicked");
     });
   }
 
 /* Clear the deck */
 
 function clearDeck(deck) {
-  console.log("function clearDeckcalled");
+  //console.log("function clearDeckcalled");
   while (deck.firstChild) {
     deck.removeChild(deck.firstChild);
   }
@@ -80,6 +80,9 @@ function newGame(deck) {
   resetMoves.textContent = "0";
   let resetClock = document.querySelector('.timer');
   resetClock.textContent = "00:00:00";
+  hours = 0;
+  minutes = 0;
+  seconds = 0;
   clearDeck(deck);
   createDeck();
   setupEventListeners();
@@ -104,7 +107,7 @@ function shuffle(array) {
 
  /* Shuffle cards and repopulate the deck */
 function createDeck() {
-  console.log("function createDeck called");
+  //console.log("function createDeck called");
   shuffle(cards);
 
   for (let i = 0; i <= 15; i++) {
@@ -132,14 +135,14 @@ function createDeck() {
 function displayCard(e, clickedCard) {
   //console.log("function call displayCard");
   //console.log("clickedCard is " + clickedCard.className);
-  console.log("number of clickedCards is now " + clickedCards);
+  //console.log("number of clickedCards is now " + clickedCards);
 
   
   if (clickedCard.className === "card") {
     clickedCard.className="card open show";
     openCards.push(clickedCard);
     let list = openCards[0].className;
-    console.log("display list is " + list);
+    //console.log("display list is " + list);
     checkOpenCards(openCards);
   }
   else {
@@ -182,12 +185,11 @@ function setupEventListeners() {
       });*/
       selectedCard.addEventListener('click', function(e) {
         clickedCards++;
-        console.log("clickedCards increment " + clickedCards);
+        //console.log("clickedCards increment " + clickedCards);
         if (clickedCards > 2) {
-          console.log("you clicked too many cards");
           alert("You can only open two cards");
           clickedCards = openCards.length;
-          console.log("clicked cards is now " + clickedCards);
+          //console.log("clicked cards is now " + clickedCards);
           return
         }
         else {
@@ -201,12 +203,12 @@ function setupEventListeners() {
 /* Create function to check a list of open cards */
 
 function checkOpenCards(openCards) {
-    console.log("function call checkOpenCards");  
+    //console.log("function call checkOpenCards");  
     //console.log("openCards is " + openCards);
     let x = openCards.length - 1;
     let symbol = openCards[x].firstElementChild.className;
-    console.log("symbol is " + symbol);
-    console.log("openCards length is " + openCards.length);
+    //console.log("symbol is " + symbol);
+    //console.log("openCards length is " + openCards.length);
     if (openCards.length === 2) {
 		  if (openCards[0].firstElementChild.className === openCards[1].firstElementChild.className){
 			  matchedCards(openCards);
@@ -223,10 +225,10 @@ function checkOpenCards(openCards) {
 /* Create function to deal with a matched pair of cards */
 
 function matchedCards(openCards) {
-    console.log("function call matchedCards");  
+    //console.log("function call matchedCards");  
     let firstcard = openCards[0].className;
     let secondcard = openCards[1].className;
-    console.log("first card is " + firstcard + " second card is " + secondcard);
+    //console.log("first card is " + firstcard + " second card is " + secondcard);
 	for (let i = 0; i < 2; i++) {
     	openCards[i].classList.add('match');
     	openCards[i].classList.remove('show', 'open');
@@ -238,10 +240,10 @@ function matchedCards(openCards) {
 /* Create function to deal with an unmatched pair of cards */
 
 function unmatchedCards(openCards) {
-    console.log("function call unmatchedCards");  
+    //console.log("function call unmatchedCards");  
     let firstcard = openCards[0].className;
     let secondcard = openCards[1].className;
-    console.log("first card is " + firstcard + " second card is " + secondcard);
+    //console.log("first card is " + firstcard + " second card is " + secondcard);
 	for (let i = 0; i < 2; i++) {
       openCards[i].classList.remove('show', 'open');
     }
@@ -259,7 +261,7 @@ function startClock() {
   const resetButton = document.querySelector('.resetButton');
 
   resetButton.addEventListener('click', function() {
-    console.log("reset button clicked in startClock");
+    //console.log("reset button clicked in startClock");
     clearTimeout(clock); 
   });
 
@@ -325,23 +327,23 @@ function removeStar() {
   let starList = document.querySelectorAll('.fa-star');
   let firstStar = starList[0];
   starCount--;
-  console.log("stars = " + starCount);
+  //console.log("stars = " + starCount);
   return firstStar.parentNode.removeChild(firstStar);
 }
 
 function addStar () {
-  console.log("addStar function called");
+  //console.log("addStar function called");
   const starsDiv = document.querySelector('.stars');
   const star = document.createElement('li');
   star.innerHTML = '<i class="fa fa-star"></i>';
   starsDiv.appendChild(star);
   starCount++;
-  console.log("stars = " + starCount);
+  //console.log("stars = " + starCount);
 }
 
 /*A fuction to handle the winning modal */
 function gameOver () {
-  console.log("function gameOver called: matchCount is " + matchCount);
+  //console.log("function gameOver called: matchCount is " + matchCount);
   const modal = document.createElement('div');
   modal.className = "modal";
   modal.innerHTML = `<h1 class="modh1"></h1><p class="modp1"></p><p class="modp2"></p><p class="modp3"></p><p class="modp4"></p>`;
@@ -357,7 +359,7 @@ function gameOver () {
   modTxt = "Your time was "  +  hours + " hours " + minutes + " minutes " + seconds + " seconds";
   p2Txt.textContent = modTxt;
   const p3Txt = document.querySelector('.modp3');
-  modTxt = "Your score was "  +  starCount + " stars";
+  modTxt = "Your star score was "  +  starCount;
   p3Txt.textContent = modTxt;
   const p4Txt = document.querySelector('.modp4');
   modTxt = "Press the reset button to play again";
@@ -366,9 +368,9 @@ function gameOver () {
 
 /* Set up the event listeners when the DOM is ready. */
 document.addEventListener("DOMContentLoaded", function(event) {
-  console.log("DOM fully loaded and parsed");
+  //console.log("DOM fully loaded and parsed");
   createScorePanel();
   newGame(deck);  
 });
 
-console.log("End");
+//console.log("End");
