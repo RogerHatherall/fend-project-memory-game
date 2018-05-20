@@ -39,7 +39,6 @@ function createScorePanel() {
     timer.textContent = timeDisplay;
     timer.className = 'timer';
     timer.style.cssText = "border: 1px solid black; font-size: 16px; border-radius: 8px; margin-left: 50px";
-    //timer.innerHTML = `<span class="timer>99:99:99</span>`;
     const resetDiv = document.querySelector('.restart');
     const scorepanelSection = document.querySelector('.score-panel');
     scorepanelSection.insertBefore(timer, resetDiv);
@@ -106,7 +105,7 @@ function shuffle(array) {
  /* Shuffle cards and repopulate the deck */
 function createDeck() {
   console.log("function createDeck called");
-  //shuffle(cards);
+  shuffle(cards);
 
   for (let i = 0; i <= 15; i++) {
     const card = document.createElement('li');
@@ -342,12 +341,11 @@ function addStar () {
 
 /*A fuction to handle the winning modal */
 function gameOver () {
-console.log("function gameOver called: matchCount is " + matchCount);
-  //alert("Winner " + "stars " + starCount + " time " + displayTime + " moves " + moveCount);
+  console.log("function gameOver called: matchCount is " + matchCount);
   const modal = document.createElement('div');
   modal.className = "modal";
   modal.innerHTML = `<h1 class="modh1"></h1><p class="modp1"></p><p class="modp2"></p><p class="modp3"></p><p class="modp4"></p>`;
-  modal.style.cssText = "width: 400px; height: 300px; background-color: white; position: fixed; z-index: 1; border: 2px, color black";
+  modal.style.cssText = "width: 400px; height: 300px; background-color: white; position: fixed; z-index: 1; border: 5px; border-style: solid; border-color: black; border-radius: 5px; text-align: center";
   const headerDiv = document.querySelector('.container');
   headerDiv.appendChild(modal);
   const headerTxt = document.querySelector('.modh1');
@@ -368,13 +366,9 @@ console.log("function gameOver called: matchCount is " + matchCount);
 
 /* Set up the event listeners when the DOM is ready. */
 document.addEventListener("DOMContentLoaded", function(event) {
-    console.log("DOM fully loaded and parsed");
-  //  setupEventListeners();
+  console.log("DOM fully loaded and parsed");
   createScorePanel();
   newGame(deck);  
 });
 
-
-//clearDeck(deck);
-//createDeck();
 console.log("End");
