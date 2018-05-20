@@ -68,6 +68,10 @@ function clearDeck(deck) {
 }
 
 function newGame(deck) {
+  let oldModal = document.querySelector('.modal');
+  if (oldModal) {
+    oldModal.remove();
+  };
   moveCount = 0;
   matchCount = 0;
   while (starCount < 3) {
@@ -127,18 +131,11 @@ function createDeck() {
  /* Create function to display a card. */
 
 function displayCard(e, clickedCard) {
-  console.log("function call displayCard");
-  console.log("clickedCard is " + clickedCard.className);
+  //console.log("function call displayCard");
+  //console.log("clickedCard is " + clickedCard.className);
   console.log("number of clickedCards is now " + clickedCards);
-  if (clickedCards > 2) {
-    alert("Open cards is " + clickedCards);
-    clickedCards = 0;
-  }
 
-  if (openCards.length > 1) {
-      openCards =[];
-      clickedCards = 0;
-  }
+  
   if (clickedCard.className === "card") {
     clickedCard.className="card open show";
     openCards.push(clickedCard);
@@ -165,13 +162,18 @@ function displayCard(e, clickedCard) {
     removeStar();
   }
 
+  if (openCards.length > 1) {
+    openCards =[];
+}
+
   return(clickedCard);
+
 }
 
 /* Set up the event listeners for all of the cards. */
 
 function setupEventListeners() {
-  console.log("function call setupEventListeners");  
+  //console.log("function call setupEventListeners");  
   const cardList = document.querySelectorAll(".card");
   for (let i = 0; i <= 15; i++){
     let selectedCard = cardList[i];
@@ -181,7 +183,17 @@ function setupEventListeners() {
       });*/
       selectedCard.addEventListener('click', function(e) {
         clickedCards++;
-        displayCard(e, selectedCard);
+        console.log("clickedCards increment " + clickedCards);
+        if (clickedCards > 2) {
+          console.log("you clicked too many cards");
+          alert("You can only open two cards");
+          clickedCards = openCards.length;
+          console.log("clicked cards is now " + clickedCards);
+          return
+        }
+        else {
+          displayCard(e, selectedCard);
+        }
       });
     //console.log("set listener for " + selectedCard);
   };
@@ -207,9 +219,6 @@ function checkOpenCards(openCards) {
             },1000);
       }
     }
-    /*if (matchCount === 8) {
-      gameOver();
-    }*/
 }
 
 /* Create function to deal with a matched pair of cards */
@@ -224,6 +233,7 @@ function matchedCards(openCards) {
     	openCards[i].classList.remove('show', 'open');
     }
     matchCount++;
+    clickedCards = 0;
 }
 
 /* Create function to deal with an unmatched pair of cards */
@@ -236,6 +246,7 @@ function unmatchedCards(openCards) {
 	for (let i = 0; i < 2; i++) {
       openCards[i].classList.remove('show', 'open');
     }
+    clickedCards = 0;
 }
 
 /* Function to start the clock */
