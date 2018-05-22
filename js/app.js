@@ -11,7 +11,7 @@ let matchCount = 0;
 let hours = 0;
 let minutes = 0;
 let seconds = 0;
-let clickedCards = 0;
+//let clickedCards = 0;
 
 //const movesSpan = document.querySelector('.moves');
 const scorePanelSection = document.querySelector('.score-panel');
@@ -145,28 +145,25 @@ function displayCard(e, clickedCard) {
     //console.log("display list is " + list);
     checkOpenCards(openCards);
   }
-  else {
-    alert("You can't click this card, try another");
-    moveCount--;
-  }
-  moveCount++;
 
-  if (moveCount === 1) {
+  if (moveCount === 1 && seconds === 0) {
     startClock();
   };
-
-//  console.log(displayTime);
 
   let movesSpan = document.querySelector('.moves');
   movesSpan.textContent = moveCount;
 
-  if (moveCount === 20 || moveCount === 40) {
+  if (moveCount === 20 && starCount === 3 || moveCount === 40 && starCount === 2) {
     removeStar();
   }
 
   if (openCards.length > 1) {
     openCards =[];
 }
+
+if (matchCount === 8) {
+  gameOver();
+};
 
   return(clickedCard);
 
@@ -184,19 +181,9 @@ function setupEventListeners() {
         displayCard(e, selectedCard);
       });*/
       selectedCard.addEventListener('click', function(e) {
-        clickedCards++;
-        //console.log("clickedCards increment " + clickedCards);
-        if (clickedCards > 2) {
-          alert("You can only open two cards");
-          clickedCards = openCards.length;
-          //console.log("clicked cards is now " + clickedCards);
-          return
-        }
-        else {
-          displayCard(e, selectedCard);
-        }
+        e.preventDefault();
+        displayCard(e, selectedCard);
       });
-    //console.log("set listener for " + selectedCard);
   };
 }
 
@@ -219,6 +206,7 @@ function checkOpenCards(openCards) {
         unmatchedCards(openCards)
             },1000);
       }
+      moveCount++;
     }
 }
 
@@ -233,27 +221,24 @@ function matchedCards(openCards) {
     	openCards[i].classList.add('match');
     	openCards[i].classList.remove('show', 'open');
     }
-    matchCount++;
-    clickedCards = 0;
+    matchCount++
 }
 
 /* Create function to deal with an unmatched pair of cards */
 
 function unmatchedCards(openCards) {
     //console.log("function call unmatchedCards");  
-    let firstcard = openCards[0].className;
-    let secondcard = openCards[1].className;
-    //console.log("first card is " + firstcard + " second card is " + secondcard);
+  let firstcard = openCards[0].className;
+  let secondcard = openCards[1].className;
 	for (let i = 0; i < 2; i++) {
       openCards[i].classList.remove('show', 'open');
     }
-    clickedCards = 0;
 }
 
 /* Function to start the clock */
 
 function startClock() {
-//  console.log("function startClock called");
+  //console.log("function startClock called");
   let clock;
   let displayHours = "00";
   let displayMinutes = "00";
@@ -300,26 +285,35 @@ function startClock() {
 
     displayTime = displayHours + ":" + displayMinutes + ":" + displaySeconds; 
     //console.log("increment function " + displayTime);
-    setClock();
+    if (matchCount === 8) {
+      clearTimeout(clock); 
+      return;
+    }
+    else {
+      setClock();
+    };
     let clockTime = document.querySelector('.timer');
     clockTime.textContent = displayTime;
-    //console.log("Function increment ends");
+    /*console.log("Function increment ends");
+    console.log("end of increment" + matchCount);
+    if (matchCount === 8){
+      console.log("call gameOver");
+    };*/
   }
-
+//console.log("out of increment");
   function setClock(){
     //console.log("Function set clock called matchCount is " + matchCount);
     if (matchCount === 8) {
       clearTimeout(clock); 
-      gameOver();
+      return;
     }
     else {
       clock = setTimeout(increment, 1000);
     }  
   }  
-   
+  
   setClock();
 
-  //  console.log("Function startClock ends");
 }
 
 function removeStar() {
@@ -338,7 +332,6 @@ function addStar () {
   star.innerHTML = '<i class="fa fa-star"></i>';
   starsDiv.appendChild(star);
   starCount++;
-  //console.log("stars = " + starCount);
 }
 
 /*A fuction to handle the winning modal */

@@ -7,11 +7,10 @@
 
 ## Instructions
 
-The starter project has some HTML and CSS styling to display a static version of the Memory Game project. You'll need to convert this project from a static project to an interactive one. This will require modifying the HTML and CSS files, but primarily the JavaScript file.
-
-To get started, open `js/app.js` and start building out the app's functionality
-
-For specific, detailed instructions, look at the project instructions in the [Udacity Classroom](https://classroom.udacity.com/me).
+To play the game click on two cards to reveal their symbols.  
+If they match they will turn green and remain on the grid but if they don't match they will be hidden again after one second. Find all eight pairs to complete the game.
+At the end your score will be revealed, to get three stars you need to complete in less than 20 moves and for two stars less than 40.
+Press the rest button to play again.
 
 ## Contributing
 
